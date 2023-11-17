@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "whiteboard",
     "profiles",
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [

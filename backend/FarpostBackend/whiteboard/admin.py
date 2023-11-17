@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from whiteboard.models import Advert
+
+admin.site.register(Advert)
