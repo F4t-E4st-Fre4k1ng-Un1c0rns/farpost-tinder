@@ -7,11 +7,13 @@ from rest_framework_simplejwt.views import (
 )
 
 from profiles.views import UserProfileViewSet, InterestsViewSet
+from whiteboard.views import AdvertViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'profiles', UserProfileViewSet)
 router.register(r'interests', InterestsViewSet)
+router.register(r'adverts', AdvertViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
