@@ -1,5 +1,17 @@
 import {Component, createRef } from 'react'
 
+const colors: Array<string> = [
+  '#FFC5C5',
+  '#FFEBD8',
+  '#C7DCA7',
+  '#BEADFA',
+  '#B0D9B1',
+  '#FFF3DA',
+  '#FFF6DC',
+  '#FFCACC',
+  '#DBC4F0'
+]
+
 class Drawing {
   x: number
   y: number
@@ -13,6 +25,8 @@ class Drawing {
 }
 
 class Text extends Drawing {
+  xx: number
+  yy: number
   title: Array<string>
   text: Array<string>
 
@@ -23,7 +37,34 @@ class Text extends Drawing {
 
   }
 
+  getHeight(ctx: CanvasRenderingContext2D) {
+    let width = 0
+    ctx.font = '30px sans'
+    this.title.forEach((v, i) => {
+      width = Math.max(width, ctx.measureText(v).width)
+    })
+    ctx.font = '20px sans'
+    this.text.forEach((v, i) => {
+      width = Math.max(width, ctx.measureText(v).width)
+    })
+    this.xx = this.x + width + 40
+    this.yy = this.y + 40 + 32 * this.title.length + 22 * this.text.length
+  }
+
   render (ctx: CanvasRenderingContext2D, dx: number, dy: number) {
+    let colorId = this.title[0].charCodeAt(0) % colors.length
+    let width = 0
+    ctx.font = '30px sans'
+    this.title.forEach((v, i) => {
+      width = Math.max(width, ctx.measureText(v).width)
+    })
+    ctx.font = '20px sans'
+    this.text.forEach((v, i) => {
+      width = Math.max(width, ctx.measureText(v).width)
+    })
+    ctx.fillStyle = colors[colorId]
+    ctx.fillRect(this.x + dx - 10, this.y + dy - 20, width + 20, this.y + 32 * this.title.length + 22 * this.text.length)
+    ctx.fillStyle = 'black'
     ctx.font = '30px sans'
     this.title.forEach((v, i) => {
       ctx.fillText(v, this.x + dx, this.y + dy + 32 * i)
@@ -52,7 +93,7 @@ export default class Canvas extends Component<Props, State> {
     dy: 0
   }
   canvasRef = createRef<HTMLCanvasElement>()
-
+  
   componentDidMount () {
     this.updateEverything()
   }
@@ -85,7 +126,7 @@ export default class Canvas extends Component<Props, State> {
       return;
     }
     ctx.clearRect(0,0, 1000, 1000);
-    ctx.fillStyle = 'white'
+    ctx.fillStyle = 'black'
     this.state.drawings.forEach(drawing => {
       drawing.render(ctx, this.state.dx, this.state.dy)
     })
