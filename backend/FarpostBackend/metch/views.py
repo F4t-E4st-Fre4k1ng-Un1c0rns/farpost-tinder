@@ -8,12 +8,8 @@ class MetchViewSet(viewsets.ModelViewSet):
     queryset = Metch.objects.all()
     serializer_class = MetchSerilizer
 
-# delete metch, because declined
-class MetchViewSet(viewsets.ModelViewSet):
-    queryset = Metch.objects.all()
-    serializer_class = MetchSerilizer
 
-# change state from waiting to accepted
+# EDIT change state from waiting to accepted or to declined
 class MetchViewSet(viewsets.ModelViewSet): 
     queryset = Metch.objects.all()
     serializer_class = MetchSerilizer
