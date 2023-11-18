@@ -1,5 +1,5 @@
-import { Component, useContext } from 'react'
-import { loginContext } from '../contexts/loginContext'
+import { Component } from 'react'
+import LoginState from '../interfaces/LoginState'
 
 enum CurrentState {
   Input,
@@ -25,7 +25,6 @@ export default class Login extends Component<Props, State> {
   }
   
   checkAuth() {
-    const context = useContext(loginContext)
     fetch(import.meta.env.VITE_API_SERVER_BASE_URL + '/api/token/', {
       method: 'POST',
       headers: {
@@ -39,9 +38,13 @@ export default class Login extends Component<Props, State> {
       switch (response.status) {
         case 200: {
           response.json().then((json) => {
-          context.loggedIn = true
-          context.authToken = json.access
-          context.refreshToken = json.refresh
+            const loginState: LoginState = {
+              loggedIn: true, 
+              accessToken: json.access, 
+              refreshToken: json.refresh
+            }
+            console.log(loginState)
+            window.localStorage.setItem("loginState", JSON.stringify(loginState));
           })
           break
         }
