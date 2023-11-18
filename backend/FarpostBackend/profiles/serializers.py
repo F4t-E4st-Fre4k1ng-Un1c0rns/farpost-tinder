@@ -1,18 +1,26 @@
 from rest_framework import serializers
 
-from profiles.models import UserProfile, Interests
+from profiles.models import User, Interest, City
 
 
 class InterestSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Interests
+        model = Interest
         fields = ['id', 'name']
 
 
-class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
-    interests = serializers.StringRelatedField(many=True)
+class CitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = UserProfile
+        model = City
+        fields = ['id', 'name']
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    interests = serializers.StringRelatedField(many=True)
+    city = serializers.StringRelatedField()
+    class Meta:
+        model = User
         fields = ['username', 'profile_picture',
-                'first_name', 'last_name',
+                'first_name', 'last_name', 'city',
                 'bio', 'interests']
+

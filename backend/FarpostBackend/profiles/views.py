@@ -1,25 +1,26 @@
 from rest_framework import permissions, viewsets
 from rest_framework.generics import CreateAPIView
 
-from profiles.models import UserProfile, Interests
-from profiles.serializers import (UserProfileSerializer, 
+from profiles.models import User, Interest, City
+from profiles.serializers import (UserSerializer, 
                                 InterestSerializer,
-                                )
+                                CitySerializer)
+
 
 class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     #permission_classes = [permissions.IsAuthenticated]
 
 
 class CreateUserProfileView(CreateAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
 
 class InterestsViewSet(viewsets.ModelViewSet):
-    queryset = Interests.objects.all()
+    queryset = Interest.objects.all()
     serializer_class = InterestSerializer
     #permission_classes = [permissions.IsAuthenticated]
 
