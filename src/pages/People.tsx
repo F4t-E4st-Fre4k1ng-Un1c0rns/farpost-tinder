@@ -3,6 +3,8 @@ import { Component } from "react";
 import User from "../interfaces/User";
 import { HumanCard } from "../components/HumanCard";
 
+import './People.css'
+
 type Props = {}
 type State = {
   allUsers: Array<User>,
@@ -92,12 +94,12 @@ export default class People extends Component<Props, State> {
   }
   render () {
     return (
-      <div>
+      <div className='people'>
       <input onChange={(e) => {
         this.state.filterName = e.target.value
         this.setState(this.state)
         this.filter_people()
-      }}></input>
+      }} placeholder="Ищите по имени"></input>
       {this.state.interests.map((interest) => {
         return <p className='interestFilter'
           id={interest}

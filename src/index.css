@@ -1,14 +1,19 @@
+body {
+  font-family: Inter;
+}
 header {
   height: 100vh;
 }
 
 #icons {
   display: grid;
-  grid-row-gap: 4px;
+  grid-row-gap: 12px;
   margin: 16px;
 }
 
 #icons img {
+  width: 24px;
+  height: 24px;
   margin: auto;
 }
 
