@@ -1,10 +1,10 @@
 from django.db import models
 
-from profiles.models import UserProfile
+from profiles.models import User
 
 
 class Advert(models.Model):
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     x_coordinates = models.IntegerField()
     y_coordinates = models.IntegerField()
     title = models.CharField(max_length=100)
