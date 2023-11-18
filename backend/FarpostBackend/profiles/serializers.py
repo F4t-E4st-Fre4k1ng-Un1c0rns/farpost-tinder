@@ -16,11 +16,13 @@ class CitySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    interests = serializers.StringRelatedField(many=True)
-    city = serializers.StringRelatedField()
+    interests = serializers.StringRelatedField(many=True, required=False)
+    city = serializers.StringRelatedField(required=False)
     class Meta:
         model = User
         fields = ['username', 'profile_picture',
                 'first_name', 'last_name', 'city',
                 'bio', 'interests']
+
+
 
