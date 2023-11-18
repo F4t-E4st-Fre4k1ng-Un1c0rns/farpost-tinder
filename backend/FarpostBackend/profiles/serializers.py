@@ -6,10 +6,11 @@ from profiles.models import UserProfile, Interests
 class InterestSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Interests
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
+    interests = serializers.StringRelatedField(many=True)
     class Meta:
         model = UserProfile
         fields = ['username', 'profile_picture',

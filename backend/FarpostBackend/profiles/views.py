@@ -6,16 +6,13 @@ from profiles.serializers import (UserProfileSerializer,
                                 InterestSerializer,
                                 )
 
-
 class UserProfileViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class CreateUserProfileView(CreateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.AllowAny]

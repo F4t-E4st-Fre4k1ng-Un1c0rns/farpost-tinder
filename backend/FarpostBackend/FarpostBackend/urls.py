@@ -19,7 +19,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/create_profile', CreateUserProfileView.as_view()),
+    path('api/profiles/create', CreateUserProfileView.as_view()),
     path('api/', include(router.urls))
 ]
 
