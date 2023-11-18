@@ -5,9 +5,9 @@ from metch.models import Metch
 from profiles.serializers import UserSerializer
 
 
-class MetchSerilizer(serializers.ModelSerializer):
+class MetchSerializer(serializers.ModelSerializer):
     author = UserSerializer
     recipient = UserSerializer
     class Meta:
         model = Metch
-        fields = ['author', 'recipient', 'text', 'state']
+        fields = ['id', 'author', 'recipient', 'message', 'state']
