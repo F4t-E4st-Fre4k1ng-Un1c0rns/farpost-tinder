@@ -7,13 +7,15 @@ from rest_framework_simplejwt.views import (
 )
 
 from profiles.views import (UserProfileViewSet, InterestsViewSet, 
-                            CreateUserProfileView, CityViewSet,)
+                            CreateUserProfileView, CityViewSet,
+                            MeViewSet,)
 from whiteboard.views import AdvertViewSet
 from metch.views import MetchViewSet, MetchView
 
 
 router = routers.DefaultRouter()
 router.register(r'profiles', UserProfileViewSet)
+router.register(r'me', MeViewSet, basename='current_user')
 router.register(r'interests', InterestsViewSet)
 router.register(r'adverts', AdvertViewSet)
 router.register(r'city', CityViewSet)
