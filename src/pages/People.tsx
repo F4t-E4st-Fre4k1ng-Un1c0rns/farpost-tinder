@@ -1,6 +1,7 @@
 import { Component } from "react";
 
 import User from "../interfaces/User";
+import { HumanCard } from "../components/HumanCard";
 
 type Props = {}
 type State = {
@@ -44,7 +45,7 @@ export default class People extends Component<Props, State> {
     return (
       <div>
         {this.state.users.map((user) => {
-          return <p>{ user.firstName } { user.lastName }</p>
+          return <HumanCard user={user}></HumanCard>
         })}
       </div>
     )
