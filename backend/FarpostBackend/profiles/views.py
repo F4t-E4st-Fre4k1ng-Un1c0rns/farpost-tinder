@@ -12,9 +12,6 @@ from profiles.serializers import (UserSerializer,
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    filter_backends = (DjangoFilterBackend)
-    search_fields = ('first_name', 'last_name')
-    filterset_fields = ('interests', 'city')
     #permission_classes = [permissions.IsAuthenticated]
 
 
@@ -27,5 +24,11 @@ class CreateUserProfileView(CreateAPIView):
 class InterestsViewSet(viewsets.ModelViewSet):
     queryset = Interest.objects.all()
     serializer_class = InterestSerializer
+    #permission_classes = [permissions.IsAuthenticated]
+
+
+class CityViewSet(viewsets.ModelViewSet):
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
     #permission_classes = [permissions.IsAuthenticated]
 
