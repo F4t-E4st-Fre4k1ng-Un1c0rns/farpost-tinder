@@ -9,4 +9,4 @@ class AdvertSerilizer(serializers.ModelSerializer):
     author= UserSerializer
     class Meta:
         model = Advert
-        fields = ['x_coordinates', 'y_coordinates', 'title', 'text']
+        fields = ['author', 'x_coordinates', 'y_coordinates', 'title', 'text']
