@@ -15,6 +15,14 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     #permission_classes = [permissions.IsAuthenticated]
 
 
+class MeViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        queryset = User.objects.filter(id=self.request.user.id)
+        return queryset
+
+
 class CreateUserProfileView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
