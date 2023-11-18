@@ -13,20 +13,25 @@ class Drawing {
 }
 
 class Text extends Drawing {
-  title: string
-  text: string
+  title: Array<string>
+  text: Array<string>
 
   constructor(x: number, y: number, title: string, text: string) {
     super(x, y)
-    this.title = title
-    this.text = text
+    this.title = title.split(/(?![^\n]{1,20}$)([^\n]{1,20})\s/g).filter((v) => { return v != '' })
+    this.text = text.split(/(?![^\n]{1,30}$)([^\n]{1,30})\s/g).filter((v) => { return v != '' })
+
   }
 
   render (ctx: CanvasRenderingContext2D, dx: number, dy: number) {
-    ctx.font = '48px sans'
-    ctx.fillText(this.title, this.x + dx, this.y + dy)
+    ctx.font = '30px sans'
+    this.title.forEach((v, i) => {
+      ctx.fillText(v, this.x + dx, this.y + dy + 32 * i)
+    })
     ctx.font = '20px sans'
-    ctx.fillText(this.text, this.x + dx, this.y + 50 + dy)
+    this.text.forEach((v, i) => {
+      ctx.fillText(v, this.x + dx, this.y + dy + 32 * this.title.length + 22 * i)
+    })
   }
 }
 
