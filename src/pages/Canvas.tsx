@@ -13,21 +13,20 @@ class Drawing {
 }
 
 class Text extends Drawing {
+  title: string
   text: string
-  color: string
-  font: string
 
-  constructor(x: number, y: number, text: string, color: string, font: string) {
+  constructor(x: number, y: number, title: string, text: string) {
     super(x, y)
+    this.title = title
     this.text = text
-    this.color = color
-    this.font = font
   }
 
   render (ctx: CanvasRenderingContext2D, dx: number, dy: number) {
-    ctx.font = this.font
-    ctx.fillStyle = this.color
-    ctx.fillText(this.text, this.x + dx, this.y + dy)
+    ctx.font = '48px sans'
+    ctx.fillText(this.title, this.x + dx, this.y + dy)
+    ctx.font = '20px sans'
+    ctx.fillText(this.text, this.x + dx, this.y + 50 + dy)
   }
 }
 
@@ -42,18 +41,37 @@ type State = {
 
 export default class Canvas extends Component<Props, State> {
   state: State = {
-    drawings: [
-      new Text(10, 10, 'Hi!', 'white', '12px serif'),
-      new Text(10, 600, 'meow', 'yellow', '500px monospace'),
-    ],
+    drawings: [],
     mouseClicked: false,
     dx: 0,
     dy: 0
   }
   canvasRef = createRef<HTMLCanvasElement>()
 
+  componentDidMount () {
+    this.updateEverything()
+  }
+
+  updateData () {
+    fetch(import.meta.env.VITE_API_SERVER_BASE_URL + '/api/adverts').then((r) => {
+      if (r.status == 200) {
+        r.json().then((json) => {
+            this.state.drawings = []
+            json.forEach((drawing: any) => {
+            this.state.drawings.push(
+              new Text(
+                drawing.x_coordinates, drawing.y_coordinates, 
+                drawing.title, drawing.text
+              ))
+            })
+            this.setState(this.state)
+            this.updateCanvas()
+        })
+      }
+    })
+  }
+
   updateCanvas () {
-    console.log(this.canvasRef)
     if (this.canvasRef.current == undefined) {
       return;
     }
@@ -62,6 +80,7 @@ export default class Canvas extends Component<Props, State> {
       return;
     }
     ctx.clearRect(0,0, 1000, 1000);
+    ctx.fillStyle = 'white'
     this.state.drawings.forEach(drawing => {
       drawing.render(ctx, this.state.dx, this.state.dy)
     })
@@ -76,9 +95,18 @@ export default class Canvas extends Component<Props, State> {
     this.updateCanvas()
   }
 
+  updateEverything(): void {
+    this.updateData()
+    if (this.canvasRef.current == undefined) {
+      return;
+    }
+    this.canvasRef.current.width = window.innerWidth
+    this.canvasRef.current.height = window.innerHeight
+  }
+
   render() {
     return (
-      <canvas ref={this.canvasRef} width='1000' height='1000' 
+      <canvas ref={this.canvasRef} style={{width: '100vw', height: '100vh'}} 
           //onClick={() => {this.updateCanvas()}} 
           onPointerMove={(e) => { this.moveElements(e) }}
           onMouseDown={() => {
