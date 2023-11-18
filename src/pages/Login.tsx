@@ -1,4 +1,5 @@
-import { Component } from 'react'
+import { Component, useContext } from 'react'
+import { loginContext } from '../contexts/loginContext'
 
 enum CurrentState {
   Input,
@@ -9,28 +10,80 @@ enum CurrentState {
 
 type Props = {}
 type State = {
-  logging: CurrentState
+  logging: CurrentState,
+  username: string,
+  password: string,
+  errorMessage: string | undefined
 }
 
 export default class Login extends Component<Props, State> {
   state: State = {
-    logging: CurrentState.Input
+    logging: CurrentState.Input,
+    username: '',
+    password: '',
+    errorMessage: undefined
   }
+  
+  checkAuth() {
+    const context = useContext(loginContext)
+    fetch(import.meta.env.VITE_API_SERVER_BASE_URL + '/api/token/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    }).then((response) => {
+      switch (response.status) {
+        case 200: {
+          response.json().then((json) => {
+          context.loggedIn = true
+          context.authToken = json.access
+          context.refreshToken = json.refresh
+          })
+          break
+        }
+        case 401: {
+          this.state.errorMessage = 'Неверное имя пользователя или пароль'
+          this.state.logging = CurrentState.Error
+          break
+        }
+        default: {
+          this.state.errorMessage = 'Проверьте данные'
+          this.state.logging = CurrentState.Error
+          break
+        }
+      }
+    })
+  }
+
   render() {
     return (
-      <form>
-        <label htmlFor='email'>Email</label>
-        <input type='email' id='email' />
+      <div>
+        <label htmlFor='username'>Email</label>
+        <input id='username' onChange={
+          e => {
+            this.state.username = e.target.value;
+            this.setState(this.state)
+          }
+        }/>
         <label htmlFor='password'>Пароль</label>
-        <input type='password' id='password' />
+        <input type='password' id='password' onChange={
+          e => {
+            this.state.password = e.target.value;
+            this.setState(this.state)
+          }
+        }/>
         <input type='checkbox' id='remember' />
         <label htmlFor='remember'>Запомнить меня</label>
-        <button>Вход</button>
+        <button onClick={() => { this.checkAuth() }}>Вход</button>
         <p>Или через</p>
         <a>farpost</a>
         <a>drom</a>
         <a>vl.ru</a>
-      </form>
+      </div>
         )
   }
 }
