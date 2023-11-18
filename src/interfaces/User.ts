@@ -3,6 +3,7 @@ export default interface User {
   profilePicture: string
   firstName: string
   lastName: string
+  city: string
   bio: string
   interests: Array<string>
 }
