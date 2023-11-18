@@ -2,10 +2,10 @@ import { createContext } from 'react'
 
 interface LoginState {
   loggedIn: boolean
-  userId: number
+  user: User | undefined
 }
 
 export const loginContext = createContext<LoginState>({ 
   loggedIn: false,
-  userId: 0
+  user: undefined
 })
