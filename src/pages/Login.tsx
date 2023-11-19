@@ -45,6 +45,8 @@ export default class Login extends Component<Props, State> {
             }
             console.log(loginState)
             window.localStorage.setItem("loginState", JSON.stringify(loginState));
+            window.localStorage.setItem("access", json.access)
+            window.localStorage.setItem("refresh", json.refresh)
           })
           break
         }
