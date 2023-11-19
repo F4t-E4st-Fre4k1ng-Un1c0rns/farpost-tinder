@@ -17,13 +17,18 @@
 
 .interestFilters {
   display: flex;
-  gap: 16px;
+  gap: 12px;
+  flex-wrap: wrap; 
+  overflow: scroll;
+  align-items: center;
+  align-content: center; 
 }
 
 .interestFilter {
   border: 1px solid #1F8BCA;
   padding: 8px;
   border-radius: 16px;
+  margin: 0;
 }
 
 .interestFilter:hover {
