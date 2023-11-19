@@ -47,3 +47,25 @@
   gap: 24px;
   align-self: stretch;
 }
+
+.name {
+  font-size: 14px
+}
+
+.bio {
+  font-size: 12px;
+}
+
+.interests {
+  display: flex;
+  gap: 12px;
+  flex-flow: wrap;
+}
+
+.interest {
+  font-size 12px;
+  border: 1px solid #1F8BCA;
+  padding: 6px;
+  border-radius: 16px;
+  margin: 0;
+}
