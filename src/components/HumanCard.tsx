@@ -2,12 +2,15 @@ import User from "../interfaces/User"
 
 import './HumanCard.css'
 import send from '../assets/send.svg'
+import Confirm from "./Confirm"
+import {createRef} from "react"
 
 type HumanCardProps = {
   user: User
 }
 
 function HumanCard(props: HumanCardProps) {
+  const alertRef = createRef<HTMLDivElement>()
   return (
     <div className='card'>
       <img src={props.user.profilePicture}></img>
@@ -21,8 +24,11 @@ function HumanCard(props: HumanCardProps) {
         </div>
         {window.localStorage.getItem('loginState') && 
           <div>
-            <img src={send} onClick={() => {confirm('Отправить запрос?')}}></img>
+            <img src={send} onClick={() => {alertRef.current!.className = ''}}></img>
           </div>}
+      </div>
+      <div className='hidden' ref={alertRef}>
+        <Confirm to={props.user}></Confirm>
       </div>
     </div>
   )
