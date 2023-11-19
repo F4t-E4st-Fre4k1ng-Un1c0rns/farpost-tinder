@@ -6,6 +6,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from FarpostBackend.settings import MEDIA_ROOT, MEDIA_URL
+from django.conf.urls.static import static
 from profiles.views import (UserProfileViewSet, InterestsViewSet, 
                             CreateUserProfileView, CityViewSet,
                             MeViewSet,)
@@ -28,5 +30,5 @@ urlpatterns = [
     path('api/profiles/create', CreateUserProfileView.as_view()),
     path('api/metch/<int:id>/', MetchView.as_view()),
     path('api/', include(router.urls)),
-]
+] + static(MEDIA_URL, document_root=MEDIA_ROOT)
 
