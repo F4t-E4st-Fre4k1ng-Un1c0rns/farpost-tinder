@@ -21,7 +21,7 @@ function HumanCard(props: HumanCardProps) {
         </div>
         {window.localStorage.getItem('loginState') && 
           <div>
-            <img src={send}></img>
+            <img src={send} onClick={() => {confirm('Отправить запрос?')}}></img>
           </div>}
       </div>
     </div>
