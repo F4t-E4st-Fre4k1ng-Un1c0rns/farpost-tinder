@@ -14,3 +14,29 @@
   border-radius: 12px; 
   border: none;
 }
+
+.interestFilters {
+  display: flex;
+  gap: 16px;
+}
+
+.interestFilter {
+  border: 1px solid #1F8BCA;
+  padding: 8px;
+  border-radius: 16px;
+}
+
+.interestFilter:hover {
+  border: 2px solid #1f8bca;
+}
+
+.interestFilter:active {
+    background-color: #1F8BCA;
+    color: white;
+}
+
+#clicked {
+    background-color: #1F8BCA;
+    color: white;
+}
+

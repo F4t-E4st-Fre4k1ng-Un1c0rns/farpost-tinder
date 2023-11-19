@@ -100,18 +100,21 @@ export default class People extends Component<Props, State> {
         this.setState(this.state)
         this.filter_people()
       }} placeholder="Ищите по имени"></input>
-      {this.state.interests.map((interest) => {
-        return <p className='interestFilter'
-          id={interest}
-          key={interest} onClick={(e) => {
-            if (this.state.filterInterests.includes(interest)) {
-              this.state.filterInterests = this.state.filterInterests.filter((e) => { return e != interest })
-            } else {
-              this.state.filterInterests.push(interest)
-            }
-            this.setState(this.state)
-          }}>{interest}</p>
-      })}
+      <div className='interestFilters'>
+        {this.state.interests.map((interest) => {
+          return <p className='interestFilter'
+            key={interest} onClick={(e) => {
+              if (this.state.filterInterests.includes(interest)) {
+                this.state.filterInterests = this.state.filterInterests.filter((e) => { return e != interest })
+                e.currentTarget.id = 'clicked'
+              } else {
+                this.state.filterInterests.push(interest)
+                e.currentTarget.id = ''
+              }
+              this.setState(this.state)
+            }}>{interest}</p>
+        })}
+      </div>
       {this.state.filteredUsers.map((user) => {
         return <HumanCard user={user} key={user.username}></HumanCard>
         })}
