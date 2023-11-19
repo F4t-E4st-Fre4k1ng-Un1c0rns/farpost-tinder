@@ -7,6 +7,19 @@ export default function NewCanvas() {
   let [params, setParams] = useSearchParams()
   const [title, setTitle] = useState("")
   const [text, setText] = useState("")
+  const [uid, setUID] = useState(0)
+  fetch(import.meta.env.VITE_API_SERVER_BASE_URL + '/api/me/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + window.localStorage.getItem('access')
+      }
+      }).then(e => {
+        e.json().then(json => {
+          setUID(json.id)  
+        })
+      })
+
 
   function send() {
     fetch(import.meta.env.VITE_API_SERVER_BASE_URL + '/api/adverts/', {
@@ -19,7 +32,8 @@ export default function NewCanvas() {
         x_coordinates: params.get('x'),
         y_coordinates: params.get('y'),
         title: title,
-        text: text
+        text: text,
+        author: uid
       })
     })
   }

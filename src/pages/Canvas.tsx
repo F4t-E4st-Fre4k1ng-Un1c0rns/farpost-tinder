@@ -105,7 +105,7 @@ export default class Canvas extends Component<Props, State> {
   }
 
   updateData () {
-    fetch(import.meta.env.VITE_API_SERVER_BASE_URL + '/api/adverts').then((r) => {
+    fetch(import.meta.env.VITE_API_SERVER_BASE_URL + '/api/adverts', {headers: {'Access-Control-Allow-Origin': 'localhost:5173'}}).then((r) => {
       if (r.status == 200) {
         r.json().then((json) => {
             this.state.drawings = []
@@ -139,7 +139,7 @@ export default class Canvas extends Component<Props, State> {
   }
 
   createNew () {
-    window.location.href = 'new?x=' + (this.state.dx + window.innerHeight / 2) + '&y='+ (this.state.dy + window.innerWidth / 2) 
+    window.location.href = '/canvas/new?x=' + (this.state.dx + window.innerHeight / 2) + '&y='+ (this.state.dy + window.innerWidth / 2) 
   }
 
   updateCanvas () {
