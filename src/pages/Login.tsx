@@ -1,5 +1,7 @@
 import { Component } from 'react'
 import LoginState from '../interfaces/LoginState'
+import './Login.css'
+import farpostBig from '../assets/farpost_big.svg'
 
 enum CurrentState {
   Input,
@@ -47,6 +49,7 @@ export default class Login extends Component<Props, State> {
             window.localStorage.setItem("loginState", JSON.stringify(loginState));
             window.localStorage.setItem("access", json.access)
             window.localStorage.setItem("refresh", json.refresh)
+            window.location.href = '/canvas'
           })
           break
         }
@@ -66,28 +69,27 @@ export default class Login extends Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <label htmlFor='username'>Email</label>
-        <input id='username' onChange={
+      <div className='loginForm'>
+        <img src={farpostBig}></img>
+        <h1>Добро пожаловать</h1>
+        <p className='moto'>Найдите своих единомышленников по интересам и раскройте новые горизонты вместе с нами</p>
+        <input id='username' className='loginText' onChange={
           e => {
             this.state.username = e.target.value;
             this.setState(this.state)
           }
-        }/>
-        <label htmlFor='password'>Пароль</label>
-        <input type='password' id='password' onChange={
+        } placeholder='Имя пользователя в telegram'/>
+        <input type='password' className='loginText' onChange={
           e => {
             this.state.password = e.target.value;
             this.setState(this.state)
           }
-        }/>
-        <input type='checkbox' id='remember' />
-        <label htmlFor='remember'>Запомнить меня</label>
+        } placeholder='Пароль'/>
+        <div id='remember'>
+          <input type='checkbox' id='remember' />
+          <label htmlFor='remember'>Запомнить меня</label>
+        </div>
         <button onClick={() => { this.checkAuth() }}>Вход</button>
-        <p>Или через</p>
-        <a>farpost</a>
-        <a>drom</a>
-        <a>vl.ru</a>
       </div>
         )
   }

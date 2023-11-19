@@ -1,0 +1,68 @@
+.loginForm {
+  display: inline-flex;
+  padding: 50px 16px;
+  width: calc(100vw - 56px - 32px);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0; 
+}
+
+.loginForm .loginText {
+  display: flex;
+  padding: 10px 16px;
+  align-items: center;
+  gap: 10px; 
+
+  border-radius: 6px;
+  border: 1px solid #D2D2D2;
+  background: #FFF; 
+}
+
+.loginForm .moto {
+  color: #000;
+  text-align: center;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  margin-bottom: 40px;
+}
+
+.loginForm h1 {
+  color: #000;
+  text-align: center;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+}
+
+.loginForm button {
+  margin-top: 26px;
+
+  color: #FFF;
+  text-align: right;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal; 
+
+  border-radius: 30px;
+  background: #1F8BCA;
+  border: none;
+
+  padding: 15px 100px;
+}

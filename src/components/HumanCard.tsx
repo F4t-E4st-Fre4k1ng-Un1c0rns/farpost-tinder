@@ -19,7 +19,7 @@ function HumanCard(props: HumanCardProps) {
           <p className='name'>{props.user.firstName} {props.user.lastName}</p>
           <p className='bio'>{props.user.bio}</p>
           <div className='interests'>
-            { props.user.interests.map(interest => { return (<p className='interest'>{interest}</p>)})}
+            { props.user.interests.map(interest => { return (<p className='interest' key={interest}>{interest}</p>)})}
           </div>
         </div>
         {window.localStorage.getItem('loginState') && 

@@ -4,6 +4,7 @@ import farpost from './assets/farpost.svg'
 import incoming from './assets/incoming.svg'
 import people from './assets/people.svg'
 import whiteboard from './assets/whiteboard.svg'
+import login from './assets/login.svg'
 
 
 export default function Layout() {
@@ -16,6 +17,7 @@ export default function Layout() {
           <Link to='/incoming/'><img src={incoming} /></Link>
           <Link to='/canvas/'><img src={whiteboard} /></Link>
         </div>
+        <Link to='/login/' id='icons'><img src={login} /></Link>
       </header>
       <main>
         <Outlet />

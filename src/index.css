@@ -31,3 +31,19 @@ main {
   height: 100vh;
   width: 100vw;
 }
+
+header {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0; 
+}
+
+#bottom {
+  isplay: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+}
