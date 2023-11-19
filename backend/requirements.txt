@@ -2,5 +2,6 @@ pillow
 setuptools
 django
 django-filter
+django-cors-headers
 django-rest-framework
 djangorestframework-simplejwt
