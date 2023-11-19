@@ -16,7 +16,7 @@ export default function NewCanvas() {
       }
       }).then(e => {
         e.json().then(json => {
-          setUID(json.id)  
+          setUID(json[0].id)  
         })
       })
 
