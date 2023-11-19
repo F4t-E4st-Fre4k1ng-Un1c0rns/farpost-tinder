@@ -18,3 +18,8 @@
   background-color: #1f8bca;
   color: white;
 }
+
+.upperDiv {
+  overflow-x: hidden;
+  height: 100vh
+}

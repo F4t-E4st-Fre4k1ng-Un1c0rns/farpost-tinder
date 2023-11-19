@@ -18,7 +18,7 @@ class Drawing {
   x: number
   y: number
 
-  constructor(x: number, y: number) {
+constructor(x: number, y: number) {
     this.x = x
     this.y = y
   }
@@ -83,7 +83,9 @@ type State = {
   drawings: Array<Text>
   mouseClicked: boolean,
   dx: number
-  dy: number
+  dy: number,
+  touchStartX: number,
+  touchStartY: number,
 }
 
 export default class Canvas extends Component<Props, State> {
@@ -91,7 +93,9 @@ export default class Canvas extends Component<Props, State> {
     drawings: [],
     mouseClicked: false,
     dx: 0,
-    dy: 0
+    dy: 0,
+    touchStartX: 0,
+    touchStartY: 0,
   }
   canvasRef = createRef<HTMLCanvasElement>()
   linkRef = createRef<HTMLAnchorElement>()
@@ -173,10 +177,27 @@ export default class Canvas extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <div className='upperDiv' onTouchStart={(e) => {
+              this.state.touchStartX = e.touches[0].clientX;
+              this.state.touchStartY = e.touches[0].clientY;
+              this.setState(this.state)
+            }}
+            onTouchMove={(e) => {
+            console.log(e)
+              let deltaX = e.changedTouches[0].clientX - this.state.touchStartX;
+              let deltaY = e.changedTouches[0].clientY - this.state.touchStartY;
+
+              this.state.dx += deltaX
+              this.state.dy += deltaY
+              this.updateCanvas()
+
+              this.state.touchStartX = e.touches[0].clientX;
+              this.state.touchStartY = e.touches[0].clientY;
+              this.setState(this.state)
+            }}>
         <canvas ref={this.canvasRef} style={{width: '100vw', height: '100vh'}} 
             onClick={(e) => { this.checkIsAdvertisment(e) }} 
-            onPointerMove={(e) => { this.moveElements(e) }}
+            onMouseMove={(e) => { this.moveElements(e) }}
             onMouseDown={() => {
               this.state.mouseClicked = true
               this.setState(this.state)
@@ -184,8 +205,7 @@ export default class Canvas extends Component<Props, State> {
             onMouseUp={() => {
               this.state.mouseClicked = false
               this.setState(this.state)
-            }}
-          ></canvas>
+            }}></canvas>
           { window.localStorage.getItem('loginState') && <button className='fab' onClick={() => { this.createNew() }}>+</button> }
         </div>
     )
