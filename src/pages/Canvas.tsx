@@ -1,5 +1,7 @@
 import {Component, createRef } from 'react'
 
+import './Canvas.css'
+
 const colors: Array<string> = [
   '#FFC5C5',
   '#FFEBD8',
@@ -25,45 +27,44 @@ class Drawing {
 }
 
 class Text extends Drawing {
-  xx: number
-  yy: number
+  xx: number | undefined
+  yy: number | undefined
+  author: number
   title: Array<string>
   text: Array<string>
 
-  constructor(x: number, y: number, title: string, text: string) {
+  constructor(x: number, y: number, title: string, text: string, author: number,
+              ctx: CanvasRenderingContext2D | null | undefined) {
     super(x, y)
+    this.author = author
     this.title = title.split(/(?![^\n]{1,20}$)([^\n]{1,20})\s/g).filter((v) => { return v != '' })
     this.text = text.split(/(?![^\n]{1,30}$)([^\n]{1,30})\s/g).filter((v) => { return v != '' })
-
+    if (ctx != null) {
+      this.getSize(ctx)
+    }
   }
 
-  getHeight(ctx: CanvasRenderingContext2D) {
+  getSize(ctx: CanvasRenderingContext2D) {
     let width = 0
     ctx.font = '30px sans'
-    this.title.forEach((v, i) => {
+    this.title.forEach((v) => {
       width = Math.max(width, ctx.measureText(v).width)
     })
     ctx.font = '20px sans'
-    this.text.forEach((v, i) => {
+    this.text.forEach((v) => {
       width = Math.max(width, ctx.measureText(v).width)
     })
-    this.xx = this.x + width + 40
-    this.yy = this.y + 40 + 32 * this.title.length + 22 * this.text.length
+    this.xx = width + 40
+    this.yy = 40 + 32 * this.title.length + 22 * this.text.length
   }
 
   render (ctx: CanvasRenderingContext2D, dx: number, dy: number) {
     let colorId = this.title[0].charCodeAt(0) % colors.length
-    let width = 0
-    ctx.font = '30px sans'
-    this.title.forEach((v, i) => {
-      width = Math.max(width, ctx.measureText(v).width)
-    })
-    ctx.font = '20px sans'
-    this.text.forEach((v, i) => {
-      width = Math.max(width, ctx.measureText(v).width)
-    })
     ctx.fillStyle = colors[colorId]
-    ctx.fillRect(this.x + dx - 10, this.y + dy - 20, width + 20, this.y + 32 * this.title.length + 22 * this.text.length)
+    if (this.xx == undefined || this.yy == undefined) {
+      return;
+    }
+    ctx.fillRect(this.x + dx - 10, this.y + dy - 20, this.xx, this.yy)
     ctx.fillStyle = 'black'
     ctx.font = '30px sans'
     this.title.forEach((v, i) => {
@@ -79,7 +80,7 @@ class Text extends Drawing {
 
 type Props = {}
 type State = {
-  drawings: Array<Drawing>
+  drawings: Array<Text>
   mouseClicked: boolean,
   dx: number
   dy: number
@@ -93,6 +94,7 @@ export default class Canvas extends Component<Props, State> {
     dy: 0
   }
   canvasRef = createRef<HTMLCanvasElement>()
+  linkRef = createRef<HTMLAnchorElement>()
   
   componentDidMount () {
     this.updateEverything()
@@ -107,7 +109,8 @@ export default class Canvas extends Component<Props, State> {
             this.state.drawings.push(
               new Text(
                 drawing.x_coordinates, drawing.y_coordinates, 
-                drawing.title, drawing.text
+                drawing.title, drawing.text, drawing.author,
+                this.canvasRef.current?.getContext('2d')
               ))
             })
             this.setState(this.state)
@@ -115,6 +118,24 @@ export default class Canvas extends Component<Props, State> {
         })
       }
     })
+  }
+
+  checkIsAdvertisment (e: any) {
+    this.state.drawings.forEach((drawing) => {
+      if (drawing.xx == undefined || drawing.yy == undefined) {
+        return
+      }
+      if ((e.clientX - this.state.dx) > drawing.x && (e.clientY - this.state.dy) > drawing.y &&
+          (e.clientX - this.state.dx) < drawing.x + drawing.xx &&
+          (e.clientY - this.state.dy) < drawing.y + drawing.yy) {
+        console.log(drawing)
+        window.location.pathname = '/user/' + drawing.author
+      }
+    })
+  }
+
+  createNew () {
+    window.location.href = 'new?x=' + (this.state.dx + window.innerHeight / 2) + '&y='+ (this.state.dy + window.innerWidth / 2) 
   }
 
   updateCanvas () {
@@ -152,18 +173,21 @@ export default class Canvas extends Component<Props, State> {
 
   render() {
     return (
-      <canvas ref={this.canvasRef} style={{width: '100vw', height: '100vh'}} 
-          //onClick={() => {this.updateCanvas()}} 
-          onPointerMove={(e) => { this.moveElements(e) }}
-          onMouseDown={() => {
-            this.state.mouseClicked = true
-            this.setState(this.state)
-          }}
-          onMouseUp={() => {
-            this.state.mouseClicked = false
-            this.setState(this.state)
-          }}
-        ></canvas>
+      <div>
+        <canvas ref={this.canvasRef} style={{width: '100vw', height: '100vh'}} 
+            onClick={(e) => { this.checkIsAdvertisment(e) }} 
+            onPointerMove={(e) => { this.moveElements(e) }}
+            onMouseDown={() => {
+              this.state.mouseClicked = true
+              this.setState(this.state)
+            }}
+            onMouseUp={() => {
+              this.state.mouseClicked = false
+              this.setState(this.state)
+            }}
+          ></canvas>
+          { window.localStorage.getItem('loginState') && <button className='fab' onClick={() => { this.createNew() }}>+</button> }
+        </div>
     )
   }
 }
