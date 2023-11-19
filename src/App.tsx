@@ -5,6 +5,7 @@ import Login from './pages/Login.tsx';
 import Canvas from './pages/Canvas.tsx';
 import NewCanvas from './pages/NewCanvas.tsx';
 import People from './pages/People.tsx';
+import UserPage from './pages/UserPage.tsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/people/' element={<People />}/>
           <Route path='/canvas/' element={<Canvas />}/>
           <Route path='/canvas/new' element={<NewCanvas />}/>
+          <Route path='/user/:id' element={<UserPage />}/>
         </Route>
       </Routes>
     </div>
