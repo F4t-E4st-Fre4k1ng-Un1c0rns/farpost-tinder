@@ -20,7 +20,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     city = serializers.StringRelatedField(required=False)
     class Meta:
         model = User
-        fields = ['username', 'profile_picture',
+        fields = ['id', 'username', 'profile_picture',
                 'first_name', 'last_name', 'city',
                 'bio', 'interests']
 
