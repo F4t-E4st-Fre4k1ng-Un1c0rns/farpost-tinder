@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'django_filters',
     "rest_framework",
+    'corsheaders',
     'rest_framework_simplejwt',
     "whiteboard",
     "profiles",
@@ -134,6 +135,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+
+CORS_ORIGIN_ALLOW_ALL = DEBUG
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'static/media')
